@@ -23,12 +23,18 @@ Route::prefix('auth')->name('auth.')->group(function () {
     Route::post('login', [AuthController::class, 'login'])
         ->name('login');
 });
-
 /* --- Send Request --- */
 
 Route::post('requests', [UserRequestController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    /* --- Manager functions --- */
+
+    Route::middleware('manager')->group(function () {
+        Route::apiResource('requests', UserRequestController::class)
+            ->only('index', 'update', 'show', 'destroy')
+            ->parameters(['requests' => 'userRequest']);
+    });
     Route::get('auth/logout', [AuthController::class, 'logout'])
         ->name('logout');
 });
