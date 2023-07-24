@@ -7,11 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequestStoreRequest;
 use App\Http\Requests\UserRequestUpdateRequest;
 use App\Http\Resources\UserRequestResource;
-use App\Mail\ProfileDelete;
 use App\Mail\UserRequestResolved;
 use App\Models\UserRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -46,10 +44,13 @@ class UserRequestController extends Controller
             $data['user_id'] = $user->id;
         }
 
-        if (!UserRequest::create($data))
+        if (!$userRequest = UserRequest::create($data))
             return $this->failure('Ошибка сервера!', 500);
 
-        return $this->success(message: 'ok');
+        /* Передать пользователю номер заявки */
+        return $this->success(message: [
+            'request_id' => $userRequest->id
+        ]);
     }
 
     public function update(UserRequestUpdateRequest $request, UserRequest $userRequest)
@@ -66,6 +67,8 @@ class UserRequestController extends Controller
         }
 
         Mail::queue(new UserRequestResolved($userRequest));
+
+        return $this->success('ok');
     }
 
     public function destroy(UserRequest $userRequest)
