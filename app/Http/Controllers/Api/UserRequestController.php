@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\UserRequestStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Filters\EntityFilter;
+use App\Http\Filters\UserRequestFilter;
 use App\Http\Requests\UserRequestStoreRequest;
 use App\Http\Requests\UserRequestUpdateRequest;
 use App\Http\Resources\UserRequestResource;
@@ -18,10 +20,18 @@ class UserRequestController extends Controller
     public function index(Request $request)
     {
         $perPage = (int)$request->get('per-page', 15);
+        $filters = $request->get('filters');
+        $userRequestQuery = UserRequest::query();
+
+        if (!empty($filters)) {
+            $filter = new UserRequestFilter($filters);
+            $userRequestQuery->filter($filter);
+        }
 
         return $this->success(
             UserRequestResource::collection(
-                UserRequest::with('user')->paginate($perPage)
+                $userRequestQuery->with('user')
+                    ->paginate($perPage)
             )->response()
                 ->getData(true)
         );
