@@ -26,7 +26,7 @@ class UserRequestController extends Controller
      * summary="Get user requests",
      * description="Get all records of user requests",
      * operationId="getUserRequests",
-     * tags={"User Requests"},
+     * tags={"User Requests for Manager"},
      * security={{"sanctum": {} }},
      * @OA\Parameter(
      *    description="Records per pagee",
@@ -107,7 +107,7 @@ class UserRequestController extends Controller
      * summary="Get user request by id",
      * description="Get one record of user request by id",
      * operationId="getUserRequest",
-     * tags={"User Requests"},
+     * tags={"User Requests for Manager"},
      * security={{"sanctum": {} }},
      * @OA\Parameter(
      *    description="User request id",
@@ -189,7 +189,7 @@ class UserRequestController extends Controller
      * summary="Resolve user request",
      * description="Resolve user request by manager",
      * operationId="resolveUserRequest",
-     * tags={"User Requests"},
+     * tags={"User Requests for Manager"},
      * security={{"sanctum": {} }},
      * @OA\Parameter(
      *    description="User request id",
@@ -245,7 +245,7 @@ class UserRequestController extends Controller
      * summary="Delete user request",
      * description="Delete user request by manager",
      * operationId="deleteUserRequest",
-     * tags={"User Requests"},
+     * tags={"User Requests for Manager"},
      * security={{"sanctum": {} }},
      * @OA\Parameter(
      *    description="User request id",

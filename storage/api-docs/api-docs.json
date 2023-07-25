@@ -261,7 +261,7 @@
         "/api/v1/requests": {
             "get": {
                 "tags": [
-                    "User Requests"
+                    "User Requests for Manager"
                 ],
                 "summary": "Get user requests",
                 "description": "Get all records of user requests",
@@ -452,7 +452,7 @@
         "/api/v1/requests/{user_request_id}": {
             "get": {
                 "tags": [
-                    "User Requests"
+                    "User Requests for Manager"
                 ],
                 "summary": "Get user request by id",
                 "description": "Get one record of user request by id",
@@ -499,7 +499,7 @@
             },
             "put": {
                 "tags": [
-                    "User Requests"
+                    "User Requests for Manager"
                 ],
                 "summary": "Resolve user request",
                 "description": "Resolve user request by manager",
@@ -590,7 +590,7 @@
             },
             "delete": {
                 "tags": [
-                    "User Requests"
+                    "User Requests for Manager"
                 ],
                 "summary": "Delete user request",
                 "description": "Delete user request by manager",
