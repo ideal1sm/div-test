@@ -686,6 +686,29 @@
                 },
                 "type": "object"
             },
+            "Role": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "readOnly": "true",
+                        "example": "Пользователь"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "readOnly": "true",
+                        "example": "user"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Role"
+                }
+            },
             "User": {
                 "properties": {
                     "id": {
@@ -706,11 +729,8 @@
                         "readOnly": "true",
                         "example": "user@gmail.com"
                     },
-                    "role_id": {
-                        "description": "User role id",
-                        "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                    "role": {
+                        "$ref": "#/components/schemas/Role"
                     },
                     "created_at": {
                         "$ref": "#/components/schemas/BaseModel/properties/created_at"

@@ -15,7 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @OA\Property(property="id", type="integer", readOnly="true", example="1"),
  * @OA\Property(property="name", type="string", readOnly="true", description="User name", example="Test user"),
  * @OA\Property(property="email", type="string", readOnly="true", format="email", description="User unique email address", example="user@gmail.com"),
- * @OA\Property(property="role_id", type="integer", readOnly="true", description="User role id", example="1"),
+ * @OA\Property(property="role", type="object", description="Related role object", ref="#/components/schemas/Role"),
  * @OA\Property(property="created_at", ref="#/components/schemas/BaseModel/properties/created_at"),
  * @OA\Property(property="updated_at", ref="#/components/schemas/BaseModel/properties/updated_at"),
  * )
