@@ -29,7 +29,7 @@ class UserRequestFilter extends AbstractFilter
         if (empty($value['from'])) {
             $builder->where('created_at', '<=', Carbon::parse($value['to'])->endOfDay()->toDateTimeString());
         } elseif (empty($value['to'])) {
-            $builder->where('created_at', '>=', Carbon::parse($value['from'])->endOfDay()->toDateTimeString());
+            $builder->where('created_at', '>=', Carbon::parse($value['from'])->startOfDay()->toDateTimeString());
         } else {
             $builder->whereBetween(
                 'created_at',
@@ -46,7 +46,7 @@ class UserRequestFilter extends AbstractFilter
         if (empty($value['from'])) {
             $builder->where('updated_at', '<=', Carbon::parse($value['to'])->endOfDay()->toDateTimeString());
         } elseif (empty($value['to'])) {
-            $builder->where('updated_at', '>=', Carbon::parse($value['from'])->endOfDay()->toDateTimeString());
+            $builder->where('updated_at', '>=', Carbon::parse($value['from'])->startOfDay()->toDateTimeString());
         } else {
             $builder->whereBetween(
                 'updated_at',
