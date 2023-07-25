@@ -14,6 +14,7 @@ use OpenApi\Annotations as OA;
 class UserRequestController extends Controller
 {
     private UserRequestService $service;
+
     public function __construct(UserRequestService $service)
     {
         $this->service = $service;
@@ -130,7 +131,9 @@ class UserRequestController extends Controller
     public function show(UserRequest $userRequest)
     {
         return $this->success(
-            new UserRequestResource($userRequest->load('user'))
+            new UserRequestResource($userRequest->load(['user' => function ($query) {
+                $query->with('role');
+            }]))
         );
     }
 

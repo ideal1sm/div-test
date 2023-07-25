@@ -25,8 +25,10 @@ class UserRequestService
         }
 
         return UserRequestResource::collection(
-            $userRequestQuery->with('user')
-                ->paginate($perPage)
+            $userRequestQuery->whereHas('user')
+                ->with(['user' => function ($query) {
+                    $query->with('role');
+                }])->paginate($perPage)
         )->response()->getData(true);
     }
 
