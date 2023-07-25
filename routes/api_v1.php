@@ -25,7 +25,9 @@ Route::prefix('auth')->name('auth.')->group(function () {
 });
 /* --- Send Request --- */
 
-Route::post('requests', [UserRequestController::class, 'store']);
+Route::post('requests', [UserRequestController::class, 'store'])
+    ->middleware('user')
+    ->name('requests.store');
 
 Route::middleware('auth:sanctum')->group(function () {
     /* --- Manager functions --- */
@@ -34,6 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('requests', UserRequestController::class)
             ->only('index', 'update', 'show', 'destroy')
             ->parameters(['requests' => 'userRequest']);
+        Route::get('requests/user/{user}', [UserRequestController::class, 'getByUser'])->name('requests.by-user');
     });
     Route::get('auth/logout', [AuthController::class, 'logout'])
         ->name('logout');

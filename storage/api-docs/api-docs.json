@@ -659,6 +659,94 @@
                     }
                 ]
             }
+        },
+        "/api/v1/requests/user/{user_id}": {
+            "get": {
+                "tags": [
+                    "User Requests for Manager"
+                ],
+                "summary": "Get user requests by user",
+                "description": "Get records of user request by user",
+                "operationId": "getUserRequestByUser",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "example": "1"
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "Records per pagee",
+                        "required": false,
+                        "example": "15"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/UserRequest"
+                                                    }
+                                                },
+                                                "links": {
+                                                    "properties": {
+                                                        "first": {
+                                                            "type": "string",
+                                                            "example": "http://localhost/api/v1/requests?page=1"
+                                                        },
+                                                        "last": {
+                                                            "type": "string",
+                                                            "example": "http://localhost/api/v1/requests?page=10"
+                                                        },
+                                                        "prev": {
+                                                            "type": "string",
+                                                            "example": "http://localhost/api/v1/requests?page=2"
+                                                        },
+                                                        "next": {
+                                                            "type": "string",
+                                                            "example": "http://localhost/api/v1/requests?page=4"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "meta": {
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "ok"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {

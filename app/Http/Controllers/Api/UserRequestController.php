@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequestStoreRequest;
 use App\Http\Requests\UserRequestUpdateRequest;
 use App\Http\Resources\UserRequestResource;
 use App\Http\Services\UserRequestService;
+use App\Models\User;
 use App\Models\UserRequest;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
@@ -134,6 +135,64 @@ class UserRequestController extends Controller
             new UserRequestResource($userRequest->load(['user' => function ($query) {
                 $query->with('role');
             }]))
+        );
+    }
+
+    /**
+     * @OA\Get(
+     * path="/api/v1/requests/user/{user_id}",
+     * summary="Get user requests by user",
+     * description="Get records of user request by user",
+     * operationId="getUserRequestByUser",
+     * tags={"User Requests for Manager"},
+     * security={{"sanctum": {} }},
+     * @OA\Parameter(
+     *    description="User id",
+     *    in="path",
+     *    name="user_id",
+     *    required=true,
+     *    example="1",
+     * ),
+     * @OA\Parameter(
+     *    description="Records per pagee",
+     *    in="query",
+     *    name="per-page",
+     *    required=false,
+     *    example="15",
+     * ),
+     * @OA\Response(
+     *    response=200,
+     *    description="Success",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="success", type="string", example="true"),
+     *       @OA\Property(property="data", type="object",
+     *          @OA\Property(property="data", type="array", @OA\Items(
+     *              ref="#/components/schemas/UserRequest"
+     *          )),
+     *         @OA\Property(property="links", type="object",
+     *              @OA\Property(property="first", type="string", example="http://localhost/api/v1/requests?page=1"),
+     *              @OA\Property(property="last", type="string", example="http://localhost/api/v1/requests?page=10"),
+     *              @OA\Property(property="prev", type="string", example="http://localhost/api/v1/requests?page=2"),
+     *              @OA\Property(property="next", type="string", example="http://localhost/api/v1/requests?page=4"),
+     *          ),
+     *         @OA\Property(property="meta", type="object")
+     *     ),
+     *       @OA\Property(property="message", type="string", example="ok"),
+     *        )
+     *     ),
+     * )
+     */
+
+    public function getByUser(Request $request, User $user)
+    {
+        $perPage = (int)$request->get('per-page', 15);
+
+        return $this->success(
+            UserRequestResource::collection(
+                $user->requests()->with(['user' => function ($query) {
+                    $query->with('role');
+                }])->paginate($perPage)
+            )->response()->getData(true)
         );
     }
 
